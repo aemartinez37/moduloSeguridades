@@ -34,13 +34,13 @@ public class SegFuncionalidad extends BaseEntity {
         this.modulo = modulo;
     }
 
-    public Integer getSec_funcionalidad() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setSec_funcionalidad(Integer sec_funcionalidad) {
-        this.codigo = sec_funcionalidad;
-    }
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }    
 
     public SegModulo getModulo() {
         return modulo;

@@ -27,6 +27,14 @@ public class SegRol extends BaseEntity {
 
     }
 
+    public SegRol(String codigo, String nombre, String estado) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.estado = EstadoRolEnum.valueOf(estado);
+    }
+    
+    
+
     public String getCodigo() {
         return codigo;
     }
