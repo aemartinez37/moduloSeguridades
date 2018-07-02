@@ -46,19 +46,19 @@ public class SegRolResource {
     public SegRolResource() {
     }
 
-    @GET
-    @Path("listar")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response listarRoles() {
-        //TODO return proper representation object
-        //throw new UnsupportedOperationException();
-        List<SegRol> roles = this.segRolServ.obtenerTodos();
-        GenericEntity<List<SegRol>> ge = new GenericEntity<List<SegRol>>(roles) {
-        };
-
-        return Response.ok(ge).build();
-
-    }
+//    @GET
+//    @Path("listar")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response listarRoles() {
+//        //TODO return proper representation object
+//        //throw new UnsupportedOperationException();
+//        List<SegRol> roles = this.segRolServ.obtenerTodos();
+//        GenericEntity<List<SegRol>> ge = new GenericEntity<List<SegRol>>(roles) {
+//        };
+//
+//        return Response.ok(ge).build();
+//
+//    }
 
     @GET
     @Path("buscar/{codigo}")
@@ -102,34 +102,38 @@ public class SegRolResource {
         //Gson gson=new Gson();        
         try {
             segRolServ.crear(rol);
-            response.setOk(1);
+            response.setCodigoRetorno("OK");
+            response.setMensajeRetorno("Rol Creado");
+            response.setRespuesta(segRolServ.obtenerPorCodigo(rol.getCodigo()));
         } catch (Exception e) {
-            response.setOk(0);
+            response.setCodigoRetorno("ERR");
+            response.setMensajeRetorno("Error en crear rol");
+            response.setRespuesta(null);
         }
 
         return Response.ok(response).build();
     }
     
-    @POST
-    @Path("crear")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response postJsonCrear(SegRolRQ request) {
-
-        SegRol rol = new SegRol(request.getCodigo(), request.getNombre(), request.getEstado());
-
-        MensajeRS response = new MensajeRS();
-
-        //Gson gson=new Gson();        
-        try {
-            segRolServ.crear(rol);
-            response.setOk(1);
-        } catch (Exception e) {
-            response.setOk(0);
-        }
-
-        return Response.ok(response).build();
-    }
+//    @POST
+//    @Path("crear")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response postJsonCrear(SegRolRQ request) {
+//
+//        SegRol rol = new SegRol(request.getCodigo(), request.getNombre(), request.getEstado());
+//
+//        MensajeRS response = new MensajeRS();
+//
+//        //Gson gson=new Gson();        
+//        try {
+//            segRolServ.crear(rol);
+//            response.setOk(1);
+//        } catch (Exception e) {
+//            response.setOk(0);
+//        }
+//
+//        return Response.ok(response).build();
+//    }
 
     @POST
     @Path("actualizar")
@@ -144,9 +148,13 @@ public class SegRolResource {
         //Gson gson=new Gson();        
         try {
             segRolServ.modificar(rol);
-            response.setOk(1);
+            response.setCodigoRetorno("OK");
+            response.setMensajeRetorno("Rol Actualizado");
+            response.setRespuesta(segRolServ.obtenerPorCodigo(rol.getCodigo()));
         } catch (Exception e) {
-            response.setOk(0);
+            response.setCodigoRetorno("ERR");
+            response.setMensajeRetorno("Error en actualizar rol");
+            response.setRespuesta(null);
         }
 
         return Response.ok(response).build();
@@ -162,9 +170,13 @@ public class SegRolResource {
         //Gson gson=new Gson();        
         try {
             segRolServ.eliminar(codigo);
-            response.setOk(1);
+            response.setCodigoRetorno("OK");
+            response.setMensajeRetorno("Rol Eliminado");
+            response.setRespuesta(null);
         } catch (Exception e) {
-            response.setOk(0);
+            response.setCodigoRetorno("ERR");
+            response.setMensajeRetorno("Error en eliminar rol");
+            response.setRespuesta(null);
         }
 
         return Response.ok(response).build();

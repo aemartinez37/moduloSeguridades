@@ -35,6 +35,20 @@ public class SegUsuario extends BaseEntity {
     public SegUsuario() {
     }
 
+    public SegUsuario(String codigo, SegPerfil perfil, String correo, String nombre, String clave, String estado) {
+        this.codigo = codigo;
+        this.perfil = perfil;
+        this.correo = correo;
+        this.nombre = nombre;
+        this.clave = clave;
+        this.estado = EstadoUsuarioEnum.valueOf(estado);
+        this.fechaCreacion=new Date();
+        this.intentosErroneos=0;
+        this.fechaUltimoAcceso=null;
+    }
+    
+    
+
     public SegUsuario(SegPerfil perfil) {
         this.perfil = perfil;
     }

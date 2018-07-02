@@ -26,6 +26,13 @@ public class SegPerfil extends BaseEntity {
     public SegPerfil() {
     }
 
+    public SegPerfil(String codigo, String nombre, String estado) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.estado = EstadoPerfilEnum.valueOf(estado);
+    }
+    
+
     public String getCodigo() {
         return codigo;
     }

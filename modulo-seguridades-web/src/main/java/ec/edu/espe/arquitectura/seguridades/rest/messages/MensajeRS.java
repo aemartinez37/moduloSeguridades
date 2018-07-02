@@ -12,19 +12,36 @@ package ec.edu.espe.arquitectura.seguridades.rest.messages;
  */
 public class MensajeRS {
     
-    Integer ok;
-
+    String CodigoRetorno;
+    String MensajeRetorno;
+    
+    Object Respuesta;
+    
     public MensajeRS() {
     }
 
-    public Integer getOk() {
-        return ok;
+    public String getCodigoRetorno() {
+        return CodigoRetorno;
     }
 
-    public void setOk(Integer ok) {
-        this.ok = ok;
+    public void setCodigoRetorno(String CodigoRetorno) {
+        this.CodigoRetorno = CodigoRetorno;
     }
-   
-    
+
+    public String getMensajeRetorno() {
+        return MensajeRetorno;
+    }
+
+    public void setMensajeRetorno(String MensajeRetorno) {
+        this.MensajeRetorno = MensajeRetorno;
+    }
+
+    public Object getRespuesta() {
+        return Respuesta;
+    }
+
+    public void setRespuesta(Object Respuesta) {
+        this.Respuesta = Respuesta;
+    }    
     
 }
