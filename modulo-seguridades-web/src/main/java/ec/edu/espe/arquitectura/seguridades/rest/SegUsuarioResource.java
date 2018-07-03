@@ -453,7 +453,6 @@ public class SegUsuarioResource {
         
         String jwtToken = Jwts.builder()
                 .setSubject(login)
-                .setIssuer(context.getAbsolutePath().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(SignatureAlgorithm.HS512, key)
