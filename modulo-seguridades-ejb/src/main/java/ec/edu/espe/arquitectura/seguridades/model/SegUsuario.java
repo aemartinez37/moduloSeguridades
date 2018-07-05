@@ -20,8 +20,9 @@ import org.mongodb.morphia.annotations.Reference;
 @Entity(noClassnameStored = true, value = "SegUsuario")
 public class SegUsuario extends BaseEntity {
     
-    @Indexed(options = @IndexOptions(name = "SegUsuario_codigoUIdx", unique = true))
-    private String codigo;
+    @Indexed(options = @IndexOptions(name = "SegUsuario_cod_usuarioUIdx", unique = true))
+    private String cod_usuario;
+    private String cod_persona;
     @Reference
     private SegPerfil perfil;
     private String correo;
@@ -35,8 +36,9 @@ public class SegUsuario extends BaseEntity {
     public SegUsuario() {
     }
 
-    public SegUsuario(String codigo, SegPerfil perfil, String correo, String nombre, String clave, String estado) {
-        this.codigo = codigo;
+    public SegUsuario(String codigo, String cod_per, SegPerfil perfil, String correo, String nombre, String clave, String estado) {
+        this.cod_usuario = codigo;
+        this.cod_persona=cod_per;
         this.perfil = perfil;
         this.correo = correo;
         this.nombre = nombre;
@@ -53,13 +55,21 @@ public class SegUsuario extends BaseEntity {
         this.perfil = perfil;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getCod_usuario() {
+        return cod_usuario;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCod_usuario(String cod_usuario) {
+        this.cod_usuario = cod_usuario;
     }
+
+    public String getCod_persona() {
+        return cod_persona;
+    }
+
+    public void setCod_persona(String cod_persona) {
+        this.cod_persona = cod_persona;
+    }        
 
     public SegPerfil getPerfil() {
         return perfil;
@@ -128,18 +138,18 @@ public class SegUsuario extends BaseEntity {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codigo != null ? codigo.hashCode() : 0);
+        hash += (cod_usuario != null ? cod_usuario.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SegRol)) {
+        if (!(object instanceof SegUsuario)) {
             return false;
         }
         SegUsuario other = (SegUsuario) object;
-        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
+        if ((this.cod_usuario == null && other.cod_usuario != null) || (this.cod_usuario != null && !this.cod_usuario.equals(other.cod_usuario))) {
             return false;
         }
         return true;
@@ -147,7 +157,7 @@ public class SegUsuario extends BaseEntity {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.arquitectura.seguridades.model.SegModulo[ codModulo=" + codigo + " ]";
+        return "ec.edu.espe.arquitectura.seguridades.model.SegModulo[ codModulo=" + cod_usuario + " ]";
     }
     
 }

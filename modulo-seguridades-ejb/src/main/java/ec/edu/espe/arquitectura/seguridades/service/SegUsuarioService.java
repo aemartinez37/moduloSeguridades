@@ -36,7 +36,7 @@ public class SegUsuarioService {
     }
     
     public SegUsuario obtenerPorCodigo(String codigo) {
-        return this.SegUsuarioFacade.findOne("codigo",codigo);
+        return this.SegUsuarioFacade.findOne("cod_usuario",codigo);
     }
     
     public void crear(SegUsuario SegUsuario) {
@@ -44,13 +44,13 @@ public class SegUsuarioService {
     }
     
     public void modificar(SegUsuario SegUsuario) {
-        SegUsuario aux = this.SegUsuarioFacade.findOne("codigo", SegUsuario.getCodigo());
+        SegUsuario aux = this.SegUsuarioFacade.findOne("cod_usuario", SegUsuario.getCod_usuario());
         SegUsuario.setId(aux.getId());
         this.SegUsuarioFacade.save(SegUsuario);
     }
     
     public void eliminar(String codigo) {
-        SegUsuario SegUsuario = this.SegUsuarioFacade.findOne("codigo", codigo);
+        SegUsuario SegUsuario = this.SegUsuarioFacade.findOne("cod_usuario", codigo);
         this.SegUsuarioFacade.delete(SegUsuario);
     }
     

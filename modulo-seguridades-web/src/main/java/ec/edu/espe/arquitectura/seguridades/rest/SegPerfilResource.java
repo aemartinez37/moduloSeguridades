@@ -6,7 +6,7 @@
 package ec.edu.espe.arquitectura.seguridades.rest;
 
 import ec.edu.espe.arquitectura.seguridades.model.SegPerfil;
-import ec.edu.espe.arquitectura.seguridades.rest.messages.MensajeRS;
+import ec.edu.espe.arquitectura.seguridades.rest.messages.LoginRS;
 import ec.edu.espe.arquitectura.seguridades.rest.messages.SegPerfilRQ;
 import ec.edu.espe.arquitectura.seguridades.service.SegPerfilService;
 import java.io.IOException;
@@ -67,10 +67,11 @@ public class SegPerfilResource {
     @GET
     @Path("buscar/{codigo}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Object listarRolesCodigo(@PathParam("codigo") String codigo) {
+    public Response listarRolesCodigo(@PathParam("codigo") String codigo) {
         
-        MensajeRS response = new MensajeRS();
+        LoginRS response = new LoginRS();
         String json=null;
+        Response resp=null;
 
         if ("todos".equals(codigo)) {
             List<SegPerfil> perfiles = this.segPerfilServ.obtenerTodos();
@@ -81,16 +82,16 @@ public class SegPerfilResource {
             mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
             mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
             
-            response.setCodigoRetorno("OK");
-            response.setMensajeRetorno("Lista de Perfiles");
+            //response.setCodigoRetorno("OK");
+            //response.setMensajeRetorno("Lista de Perfiles");
              
             try {
-                response.setRespuesta(perfiles);
-                json = mapper.writeValueAsString(response);
+                //response.setRespuesta(perfiles);
+                json = mapper.writeValueAsString(perfiles);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return json;
+            return resp.ok(json).build();
             
             
         } else {
@@ -101,34 +102,36 @@ public class SegPerfilResource {
                 mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
                 mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 
-                response.setCodigoRetorno("OK");
-                response.setMensajeRetorno("Perfil");
+               // response.setCodigoRetorno("OK");
+                //response.setMensajeRetorno("Perfil");
 
                 try {
-                    response.setRespuesta(perfil);
-                    json = mapper.writeValueAsString(response);
+                    //response.setRespuesta(perfil);
+                    json = mapper.writeValueAsString(perfil);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return json;
+                return resp.ok(json).build();
                 
                 
             } else {
                 
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-                mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-
-                response.setCodigoRetorno("ERR");
-                response.setMensajeRetorno("Perfil no encontrado");
-
-                try {
-                    response.setRespuesta(perfil);
-                    json = mapper.writeValueAsString(response);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return json;                
+//                ObjectMapper mapper = new ObjectMapper();
+//                mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+//                mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+//
+//                response.setCodigoRetorno("ERR");
+//                response.setMensajeRetorno("Perfil no encontrado");
+//
+//                try {
+//                    response.setRespuesta(perfil);
+//                    json = mapper.writeValueAsString(response);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                return json;   
+                resp.status(Response.Status.NOT_FOUND);
+                return resp;
                 
             }
         }
@@ -147,30 +150,33 @@ public class SegPerfilResource {
     @Path("nuevo")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Object postJsonNuevo(SegPerfilRQ request) {
+    public Response postJsonNuevo(SegPerfilRQ request) {
 
         SegPerfil perfil = new SegPerfil(request.getCodigo(), request.getNombre(), request.getEstado());
 
-        MensajeRS response = new MensajeRS();
+        LoginRS response = new LoginRS();
         String json = null;
+        Response resp=null;
+        
 
         //Gson gson=new Gson();        
         try {
             segPerfilServ.crear(perfil);
             
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+//            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
             
-             response.setCodigoRetorno("OK");
-             response.setMensajeRetorno("Perfil Creado");
-             
-            try {
-                response.setRespuesta(segPerfilServ.obtenerPorCodigo(perfil.getCodigo()));
-                json = mapper.writeValueAsString(response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//             response.setCodigoRetorno("OK");
+//             response.setMensajeRetorno("Perfil Creado");
+//             
+//            try {
+//                response.setRespuesta(segPerfilServ.obtenerPorCodigo(perfil.getCodigo()));
+//                json = mapper.writeValueAsString(response);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+              resp.status(Response.Status.CREATED);
             
             
 //            response.setCodigoRetorno("OK");
@@ -180,27 +186,28 @@ public class SegPerfilResource {
             
         } catch (Exception e) {
             
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-
-             response.setCodigoRetorno("ERR");
-             response.setMensajeRetorno("No se pudo crear perfil");
-
-            try {
-                response.setRespuesta(null);
-                json = mapper.writeValueAsString(response);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+//            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+//
+//             response.setCodigoRetorno("ERR");
+//             response.setMensajeRetorno("No se pudo crear perfil");
+//
+//            try {
+//                response.setRespuesta(null);
+//                json = mapper.writeValueAsString(response);
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
             
 //            response.setCodigoRetorno("ERR");
 //            response.setMensajeRetorno("Error en crear perfil");
 //            response.setRespuesta(null);
+              resp.status(Response.Status.BAD_REQUEST);
         }
 
         //return Response.ok(response).build();
-        return json;
+        return resp;
     }
     
 //    @POST
@@ -211,7 +218,7 @@ public class SegPerfilResource {
 //
 //        SegRol rol = new SegRol(request.getCodigo(), request.getNombre(), request.getEstado());
 //
-//        MensajeRS response = new MensajeRS();
+//        LoginRS response = new LoginRS();
 //
 //        //Gson gson=new Gson();        
 //        try {
@@ -228,92 +235,98 @@ public class SegPerfilResource {
     @Path("actualizar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Object postJsonActualizar(SegPerfilRQ request) {
+    public Response postJsonActualizar(SegPerfilRQ request) {
 
         SegPerfil perfil = new SegPerfil(request.getCodigo(), request.getNombre(), request.getEstado());
 
-        MensajeRS response = new MensajeRS();
+        LoginRS response = new LoginRS();
         String json = null;
+        Response resp=null;
           
         try {
             segPerfilServ.modificar(perfil);
+            resp.status(Response.Status.OK);
             
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-            
-            response.setCodigoRetorno("OK");
-            response.setMensajeRetorno("Perfil Actualizado");
-             
-            try {
-                response.setRespuesta(segPerfilServ.obtenerPorCodigo(perfil.getCodigo()));
-                json = mapper.writeValueAsString(response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+//            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+//            
+//            response.setCodigoRetorno("OK");
+//            response.setMensajeRetorno("Perfil Actualizado");
+//             
+//            try {
+//                response.setRespuesta(segPerfilServ.obtenerPorCodigo(perfil.getCodigo()));
+//                json = mapper.writeValueAsString(response);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             
         } catch (Exception e) {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-
-             response.setCodigoRetorno("ERR");
-             response.setMensajeRetorno("No se pudo actualizar perfil");
-
-            try {
-                response.setRespuesta(null);
-                json = mapper.writeValueAsString(response);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            resp.status(Response.Status.BAD_REQUEST);
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+//            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+//
+//             response.setCodigoRetorno("ERR");
+//             response.setMensajeRetorno("No se pudo actualizar perfil");
+//
+//            try {
+//                response.setRespuesta(null);
+//                json = mapper.writeValueAsString(response);
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
         }
 
-        return json;
+        return resp;
     }
 
     @DELETE
     @Path("eliminar/{codigo}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Object postJsonEliminar(@PathParam("codigo") String codigo) {
+    public Response postJsonEliminar(@PathParam("codigo") String codigo) {
         
-        MensajeRS response = new MensajeRS();
+        LoginRS response = new LoginRS();
         String json = null;
+        Response resp=null;
 
         //Gson gson=new Gson();        
         try {
             segPerfilServ.eliminar(codigo);
+            resp.status(Response.Status.OK);
             
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-            
-            response.setCodigoRetorno("OK");
-            response.setMensajeRetorno("Perfil Eliminado");
-             
-            try {
-                response.setRespuesta(null);
-                json = mapper.writeValueAsString(response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+//            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+//            
+//            response.setCodigoRetorno("OK");
+//            response.setMensajeRetorno("Perfil Eliminado");
+//             
+//            try {
+//                response.setRespuesta(null);
+//                json = mapper.writeValueAsString(response);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
            
         } catch (Exception e) {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-
-             response.setCodigoRetorno("ERR");
-             response.setMensajeRetorno("No se pudo eliminar perfil");
-
-            try {
-                response.setRespuesta(null);
-                json = mapper.writeValueAsString(response);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            resp.status(Response.Status.BAD_REQUEST);
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+//            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+//
+//             response.setCodigoRetorno("ERR");
+//             response.setMensajeRetorno("No se pudo eliminar perfil");
+//
+//            try {
+//                response.setRespuesta(null);
+//                json = mapper.writeValueAsString(response);
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
         }
 
-        return json;
+        return resp;
     }
 
 }

@@ -5,22 +5,21 @@
  */
 package ec.edu.espe.arquitectura.seguridades.rest.messages;
 
+
 /**
  *
  * @author Andrés
  */
-public class SegUsuarioRQ {
+public class LoginRS {   
     
     private String cod_usuario;
     private String cod_persona;
     private String perfil;
     private String correo;
     private String nombre;
-    private String clave;
-    private String estado;
-
-    public SegUsuarioRQ() {
-    }
+    
+    public LoginRS() {
+    }   
 
     public String getCod_usuario() {
         return cod_usuario;
@@ -37,8 +36,6 @@ public class SegUsuarioRQ {
     public void setCod_persona(String cod_persona) {
         this.cod_persona = cod_persona;
     }
-
-    
 
     public String getPerfil() {
         return perfil;
@@ -64,22 +61,6 @@ public class SegUsuarioRQ {
         this.nombre = nombre;
     }
 
-    public String getClave() {
-        return clave;
-    }
-
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-    
-    
+   
     
 }

@@ -96,7 +96,7 @@ public class SegRegistroAcceso extends BaseEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SegRol)) {
+        if (!(object instanceof SegRegistroAcceso)) {
             return false;
         }
         SegRegistroAcceso other = (SegRegistroAcceso) object;

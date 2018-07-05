@@ -9,9 +9,12 @@ import ec.edu.espe.arquitectura.nosql.mongo.config.ConfigDTO;
 import ec.edu.espe.arquitectura.nosql.mongo.config.ConfigReader;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.ConcurrencyManagement;
@@ -52,9 +55,20 @@ public class MongoPersistence {
                     .connectTimeout(config.getConnectionTimeout())
                     .maxConnectionIdleTime(config.getMaxIdleTime())
                     .applicationName(config.getAppName()).build(); 
+            
+            
+            
+            String user="aemartinez4";
+            String password="aemartinez4";
+            List<MongoCredential> credentials = new ArrayList<>();
+            if (user != null && password != null && !user.trim().isEmpty() && !password.trim().isEmpty()) {
+                    credentials.add(MongoCredential.createCredential(user, config.getDatabase(), password.toCharArray()));
+            }
+            
+            
 
             try {
-                mongoClient = new MongoClient(new ServerAddress(config.getHost(), config.getPort()), mongoOptions);
+                mongoClient = new MongoClient(new ServerAddress(config.getHost(), config.getPort()),credentials, mongoOptions);
             } catch (Exception e) {
                 throw new RuntimeException("Error initializing MongoDB", e);
             }

@@ -29,8 +29,8 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(ec.edu.espe.arquitectura.seguridades.rest.LoginResource.class);
         resources.add(ec.edu.espe.arquitectura.seguridades.rest.SegPerfilResource.class);
-        resources.add(ec.edu.espe.arquitectura.seguridades.rest.SegRolResource.class);
         resources.add(ec.edu.espe.arquitectura.seguridades.rest.SegUsuarioResource.class);
     }
     
