@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(ec.edu.espe.arquitectura.seguridades.rest.LoginResource.class);
         resources.add(ec.edu.espe.arquitectura.seguridades.rest.SegPerfilResource.class);
         resources.add(ec.edu.espe.arquitectura.seguridades.rest.SegUsuarioResource.class);
+        resources.add(ec.edu.espe.arquitectura.seguridades.rest.util.CORSResponseFilter.class);
     }
     
 }
