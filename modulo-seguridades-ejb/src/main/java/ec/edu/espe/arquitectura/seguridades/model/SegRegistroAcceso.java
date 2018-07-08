@@ -22,6 +22,7 @@ public class SegRegistroAcceso extends BaseEntity {
     private Integer codigo;
     private String tipoAcceso;
     private String codigoUsuario;
+    private String perfil;
     private String ip;
     private String funcionalidad;
     private String resultado;
@@ -29,6 +30,18 @@ public class SegRegistroAcceso extends BaseEntity {
 
     public SegRegistroAcceso() {
     }
+
+    public SegRegistroAcceso(String tipoAcceso, String codigoUsuario,String perfil, String ip, String funcionalidad, String resultado) {
+        this.codigo=0;
+        this.tipoAcceso = tipoAcceso;
+        this.codigoUsuario = codigoUsuario;
+        this.perfil=perfil;
+        this.ip = ip;
+        this.funcionalidad = funcionalidad;
+        this.resultado = resultado;
+        this.fecha=new Date();
+    }
+    
 
     public Integer getCodigo() {
         return codigo;
@@ -52,6 +65,14 @@ public class SegRegistroAcceso extends BaseEntity {
 
     public void setCodigoUsuario(String codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 
     public String getIp() {

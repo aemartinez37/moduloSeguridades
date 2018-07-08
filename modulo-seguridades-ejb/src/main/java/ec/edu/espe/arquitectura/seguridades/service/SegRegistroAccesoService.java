@@ -35,12 +35,12 @@ public class SegRegistroAccesoService {
         return this.segRegistroAccesoFacade.find().asList();
     }
     
-    public SegRegistroAcceso obtenerPorCodigo(String codigo) {
+    public SegRegistroAcceso obtenerPorCodigo(Integer codigo) {
         return this.segRegistroAccesoFacade.findOne("codigo",codigo);
     }
     
     public void crear(SegRegistroAcceso segRegistroAcceso) {
-         List<SegRegistroAcceso> aux = this.segRegistroAccesoFacade.find().asList();
+        List<SegRegistroAcceso> aux = this.segRegistroAccesoFacade.find().asList();
         Integer codigo;
         if (aux.isEmpty()) {
             codigo = 1;

@@ -68,7 +68,9 @@ public class MongoPersistence {
             
 
             try {
+                //mongoClient = new MongoClient(new ServerAddress(config.getHost(), config.getPort()), mongoOptions);
                 mongoClient = new MongoClient(new ServerAddress(config.getHost(), config.getPort()),credentials, mongoOptions);
+                
             } catch (Exception e) {
                 throw new RuntimeException("Error initializing MongoDB", e);
             }

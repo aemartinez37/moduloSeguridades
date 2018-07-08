@@ -59,8 +59,7 @@ public class LoginResource {
         Response resp=null;
 
         SegUsuario usuario = this.segUsuarioServ.obtenerPorCodigo(request.getUsuario());
-        if (usuario != null) {
-            
+        if (usuario != null) {            
             
             if(usuario.getClave().compareTo(request.getClave())==0) //Credenciales Correctas
             {
@@ -71,10 +70,7 @@ public class LoginResource {
                     
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-                    mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-
-                    //response.setCodigoRetorno("OK");
-                    //response.setMensajeRetorno("Acceso Concedido");
+                    mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);                  
 
                     try {
                         response.setCod_usuario(usuario.getCod_usuario());
@@ -87,75 +83,36 @@ public class LoginResource {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //return Response.ok(json).build();
+                    System.out.println("Ingreso Correcto!");
                     return resp.ok(json).build();
-                    //return json;
                 }
                 else //Cuenta deshabilitada
                 {
-//                    ObjectMapper mapper = new ObjectMapper();
-//                    mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-//                    mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-//
-//                    //response.setCodigoRetorno("ERR");
-//                    //response.setMensajeRetorno("Cuenta deshabilitada por intentos incorrectos");
-//
-//                    try {
-//                        response.setRespuesta(null);
-//                        json = mapper.writeValueAsString(response);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-                    resp.status(Response.Status.UNAUTHORIZED);
-                    return resp;
-                    //return json;
+                    System.out.println("Cuenta Deshabilitada!");
+                    //resp.status(Response.Status.UNAUTHORIZED);
+                    //return resp;
+                    return Response.status(Response.Status.UNAUTHORIZED).build();
                 }
             }
             else //Credenciales Incorrectas
             {
-                // Aumentar intentos fallidos y devolver error
                 usuario.setIntentosErroneos(usuario.getIntentosErroneos()+1);
-                segUsuarioServ.modificar(usuario);
-                
-//                ObjectMapper mapper = new ObjectMapper();
-//                    mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-//                    mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+                segUsuarioServ.modificar(usuario);       
 
-                    //response.setCodigoRetorno("ERR");
-                    //response.setMensajeRetorno("Clave Incorrecta");
-
-//                    try {
-//                        response.setRespuesta(null);
-//                        json = mapper.writeValueAsString(response);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-                    resp.status(Response.Status.FORBIDDEN);
-                    return resp;
-                    //return json;
-                
-                
+                //resp.status(Response.Status.FORBIDDEN);
+                //return resp;
+                System.out.println("Credenciales Incorrectas!");
+                return Response.status(Response.Status.FORBIDDEN).build();
             }
         } else {
 
-//            ObjectMapper mapper = new ObjectMapper();
-//            mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
-//            mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-
-//            response.setCodigoRetorno("ERR");
-//            response.setMensajeRetorno("Usuario no existe");
-//
-//            try {
-//                response.setRespuesta(usuario);
-//                json = mapper.writeValueAsString(response);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            resp.status(Response.Status.NOT_FOUND);
-            return resp;
-            //return json;                
-
+            //resp.status(Response.Status.NOT_FOUND);
+            //return resp;
+            
+            System.out.println("Usuario no encontrado!");
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }    
 
 }
+
