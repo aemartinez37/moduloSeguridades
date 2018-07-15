@@ -159,6 +159,61 @@ public class SegUsuarioResource {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
     }
+    
+    
+    
+    //USUARIOS POR COD_PERSONA
+    @GET
+    @Path("buscar/codpersona/{codigo}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listarUsuariosPorCodPersona(@PathParam("codigo") String codigo) {
+        
+        String json=null;
+        Response resp=null;
+        //List<SegUsuario> usuariosRS = new ArrayList<SegUsuario>();
+        SegUsuario usrResp=null;
+        
+        List<SegUsuario> usuarios = this.segUsuarioServ.obtenerTodos();
+        if (usuarios!=null) {            
+            
+            for(SegUsuario su: usuarios)
+            {
+                if(su.getCod_persona().equals(codigo))
+                    usrResp=su;
+            }
+            
+            if(usrResp!=null){
+                
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+                mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+
+                try {
+                    json = mapper.writeValueAsString(usrResp);
+                    return Response.ok(json).build(); 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("ERROR ENCONTRANDO USUARIO POR COD_PERSONA!");
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                }
+                //return Response.ok(json).build();
+                
+            }else {
+                //resp.status(Response.Status.NOT_FOUND);
+                //return resp;   
+                System.out.println("ERROR - NO EXISTEN USUARIO CON COD_PERSONA!");
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }       
+
+                      
+            
+        } else {
+                //resp.status(Response.Status.NOT_FOUND);
+                //return resp;   
+                System.out.println("ERROR - NO EXISTE USUARIO CON DOD_PERSONA!");
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+    }
         
     
     
