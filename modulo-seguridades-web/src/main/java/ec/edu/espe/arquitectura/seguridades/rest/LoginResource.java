@@ -5,6 +5,7 @@
  */
 package ec.edu.espe.arquitectura.seguridades.rest;
 
+import ec.edu.espe.arquitectura.seguridades.enums.EstadoUsuarioEnum;
 import ec.edu.espe.arquitectura.seguridades.model.SegUsuario;
 import ec.edu.espe.arquitectura.seguridades.rest.messages.LoginRS;
 import ec.edu.espe.arquitectura.seguridades.rest.messages.SegLoginRQ;
@@ -63,7 +64,7 @@ public class LoginResource {
             
             if(usuario.getClave().compareTo(request.getClave())==0) //Credenciales Correctas
             {
-                if(usuario.getIntentosErroneos()<3) //Cuenta Habilitada
+                if((usuario.getEstado().compareTo(EstadoUsuarioEnum.ACT))==0 && usuario.getIntentosErroneos()<3) //Cuenta Habilitada
                 {
                     usuario.setIntentosErroneos(0);
                     segUsuarioServ.modificar(usuario);                   
@@ -97,7 +98,14 @@ public class LoginResource {
             else //Credenciales Incorrectas
             {
                 usuario.setIntentosErroneos(usuario.getIntentosErroneos()+1);
-                segUsuarioServ.modificar(usuario);       
+                segUsuarioServ.modificar(usuario); 
+                
+                if(usuario.getIntentosErroneos()>=3)
+                {
+                    usuario.setEstado(EstadoUsuarioEnum.INA);
+                    usuario.setIntentosErroneos(0);
+                    segUsuarioServ.modificar(usuario); 
+                }
 
                 //resp.status(Response.Status.FORBIDDEN);
                 //return resp;
